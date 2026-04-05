@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      background: #181929;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .main-box {
+      width: 430px;
+      margin: 60px auto 0 auto;
+      background: #22243a;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px #1113;
+      padding: 32px 0 25px 0;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 18px;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      width: 320px;
+      margin-left: auto; margin-right: auto;
+    }
+    .label {
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+    .hand-row {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 320px;
+      margin: 0 auto 15px auto;
+    }
+    .hand {
+      font-size: 5.2rem;
+      margin: 0 20px;
+      transition: transform 0.3s;
+      filter: drop-shadow(0 5px 8px #43434a44);
+    }
+    .shake {
+      animation: shakeHand 0.8s linear;
+    }
+    @keyframes shakeHand {
+      10%, 60% { transform: rotate(-18deg);}
+      30%, 80% { transform: rotate(18deg);}
+      0%,100% { transform: rotate(0);}
+    }
+    .buttons {
+      margin-top: 16px;
+      margin-bottom: 11px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+    .buttons button {
+      background: #23235b;
+      color: #fff;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      border: none;
+      outline: none;
+      padding: 13px 29px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s all;
+    }
+    .buttons button:hover {
+      background: #932ac7;
+      color: #fff427;
+    }
+    .scores {
+      margin-top: 16px;
+      display: flex; justify-content: center;
+      gap: 34px;
+      font-size: 1.05rem;
+    }
+    .scores span {
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-box">
+    <h2>Rock Paper Scissors</h2>
+    <div class="row">
+      <span class="label">Player</span>
+      <span class="label">v/s</span>
+      <span class="label">Computer</span>
+    </div>
+    <div class="hand-row">
+      <div id="playerHand" class="hand">✊</div>
+      <div id="compHand" class="hand">✊</div>
+    </div>
+    <div class="buttons">
+      <button onclick="play('rock')">Rock</button>
+      <button onclick="play('paper')">Paper</button>
+      <button onclick="play('scissors')">Scissors</button>
+    </div>
+    <div class="scores">
+      <div>Won: <span id="won">0</span></div>
+      <div>Lost: <span id="lost">0</span></div>
+      <div>Draw: <span id="draw">0</span></div>
+    </div>
+  </div>
+  <script>
+    const icons = { rock: "✊", paper: "🖐", scissors: "✌" };
+    let won=0, lost=0, draw=0;
+    function play(playerMove) {
+      const compMove = ["rock","paper","scissors"][Math.floor(Math.random()*3)];
+      let playerHand = document.getElementById('playerHand');
+      let compHand = document.getElementById('compHand');
+      playerHand.classList.remove('shake');
+      compHand.classList.remove('shake');
+      void playerHand.offsetWidth; void compHand.offsetWidth;
+      playerHand.classList.add('shake'); compHand.classList.add('shake');
+      setTimeout(()=>{
+        playerHand.textContent = icons[playerMove];
+        compHand.textContent = icons[compMove];
+        if(playerMove===compMove){ draw++; }
+        else if(
+          (playerMove=="rock"&&compMove=="scissors")||
+          (playerMove=="paper"&&compMove=="rock")||
+          (playerMove=="scissors"&&compMove=="paper")
+        ){ won++; }
+        else{ lost++; }
+        document.getElementById('won').textContent=won;
+        document.getElementById('lost').textContent=lost;
+        document.getElementById('draw').textContent=draw;
+      },800); // match animation
+    }
+  </script>
+</body>
+</html>
